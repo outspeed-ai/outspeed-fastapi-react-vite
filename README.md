@@ -7,16 +7,35 @@ A React web app that demonstrates real-time voice conversations using Outspeed's
 - `python` and `uv` for server
 - `node` and `npm` for client (React)
 - Outspeed API key
+- OpenWeatherMap API key (for weather functionality)
 
 ## Setup
 
 ### 1. Environment Variables
+
+#### Server Environment Variables
 
 Create a `.env` file in the `server` directory:
 
 ```bash
 OUTSPEED_API_KEY=your_outspeed_api_key_here
 ```
+
+#### Client Environment Variables
+
+Copy the example environment file and configure your API keys:
+
+```bash
+cp .env.example .env
+```
+
+Update the `.env` file in the root directory with your API keys:
+
+```bash
+VITE_OPEN_WEATHER_MAP_API_KEY=your_openweathermap_api_key_here
+```
+
+The `VITE_OPEN_WEATHER_MAP_API_KEY` is required for the `get_weather` client tool to function properly. You can get your API key from [OpenWeatherMap](https://openweathermap.org/api).
 
 ### 2. Server Setup
 

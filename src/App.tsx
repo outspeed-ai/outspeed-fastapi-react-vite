@@ -2,6 +2,8 @@ import { type SessionConfig } from "@outspeed/client";
 import { useConversation } from "@outspeed/react";
 import { useState } from "react";
 
+import { CLIENT_TOOL_SCHEMAS, clientTools } from "./tools";
+
 import Logo from "./assets/react.svg";
 
 import "./App.css";
@@ -41,7 +43,8 @@ const sessionConfig: SessionConfig = {
   turn_detection: {
     type: "semantic_vad",
   },
-  first_message: "Hello, how can i assist you with Outspeed today?",
+  tools: Object.values(CLIENT_TOOL_SCHEMAS), // this makes the tools available to the model
+  first_message: "Hello, how can I assist you with Outspeed today?",
 };
 
 export default function App() {
@@ -49,6 +52,7 @@ export default function App() {
 
   const conversation = useConversation({
     sessionConfig: sessionConfig,
+    clientTools, // this is a mapping of tool names and actual functions that would be called when the model uses the tool
   });
 
   const startSession = async () => {
@@ -88,7 +92,20 @@ export default function App() {
     return (
       <>
         <img src={Logo} alt="Logo" className="logo" />
-        <h2>Session created!</h2>
+
+        <h2 className="my-4">Session created!</h2>
+
+        <div className="tools-section">
+          <h3>Available Tools:</h3>
+          <ul>
+            {Object.keys(CLIENT_TOOL_SCHEMAS).map((toolName) => (
+              <li key={toolName}>
+                <strong>{toolName}</strong>: {CLIENT_TOOL_SCHEMAS[toolName].description}
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <button onClick={endSession} className="mt-4">
           Stop Session
         </button>
@@ -99,7 +116,20 @@ export default function App() {
   return (
     <>
       <img src={Logo} alt="Logo" className="logo" />
-      <h2>Click the button to start a session</h2>
+
+      <div className="tools-section">
+        <h3>Available Tools:</h3>
+        <ul>
+          {Object.keys(CLIENT_TOOL_SCHEMAS).map((toolName) => (
+            <li key={toolName}>
+              <strong>{toolName}</strong>: {CLIENT_TOOL_SCHEMAS[toolName].description}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <h2 className="mt-4">Click the button to start a session</h2>
+
       <button onClick={startSession} className="mt-4">
         Start Session
       </button>
